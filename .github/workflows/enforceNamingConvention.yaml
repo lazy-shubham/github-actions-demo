@@ -2,7 +2,7 @@ name: Enforcing Naming Convention
 
 on:
   pull_request:
-    types: [opened, synchronize]
+    types: [opened, edited]
 
 jobs:
   pr-naming:

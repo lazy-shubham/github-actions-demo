@@ -23,7 +23,15 @@ jobs:
           if (totalLines <= 50) return 'small'
           if (totalLines > 200) return 'large'
           return 'medium'
-    
+
+    - name: Remove existing labels
+      uses: actions-ecosystem/action-remove-labels@v1
+      with:
+        labels: |
+          small
+          medium
+          large
+
     - name: Label PR based on lines of code
       uses: actions-ecosystem/action-add-labels@v1
       with:

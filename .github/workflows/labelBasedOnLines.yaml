@@ -1,0 +1,33 @@
+name: PR Label Based On Lines
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  pr-labelling:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Get PR info
+      id: pr
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const pr = context.payload.pull_request;
+          return {
+            linesAdded: pr.additions,
+            linesRemoved: pr.deletions
+          };
+    
+    - name: Label PR based on lines of code
+      uses: actions-ecosystem/action-add-labels@v1
+      with:
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
+        labels: |
+          ${{ steps.pr.outputs.linesAdded + steps.pr.outputs.linesRemoved <= 50 && 'small' }}
+          ${{ steps.pr.outputs.linesAdded + steps.pr.outputs.linesRemoved > 50 && steps.pr.outputs.linesAdded + steps.pr.outputs.linesRemoved <= 200 && 'medium' }}
+          ${{ steps.pr.outputs.linesAdded + steps.pr.outputs.linesRemoved > 200 && 'large' }}

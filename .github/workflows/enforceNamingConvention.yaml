@@ -1,0 +1,21 @@
+name: Enforcing Naming Convention
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  pr-naming:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Enforce PR Naming Convention
+      id: check-pr-name
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const title = context.payload.pull_request.title;
+          const validTitle = /^\[(?i:feature|bugfix|hotfix)\] .+$/.test(title);
+          if (!validTitle) {
+            core.setFailed(`PR title "${title}" does not match the required format (e.g. [FEATURE] Description)`);
+          }

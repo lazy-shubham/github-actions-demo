@@ -21,7 +21,7 @@ jobs:
           const pr = context.payload.pull_request;
           const totalLines = (pr.additions || 0) + (pr.deletions || 0);
           if (totalLines <= 50) return 'small'
-          else if (totalLines > 200) return 'large'
+          if (totalLines > 200) return 'large'
           return 'medium'
     
     - name: Label PR based on lines of code

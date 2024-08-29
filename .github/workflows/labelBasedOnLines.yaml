@@ -24,7 +24,7 @@ jobs:
     - name: Label PR based on lines of code
       uses: actions-ecosystem/action-add-labels@v1
       with:
-        repo-token: ${{ secrets.GITHUB_TOKEN }}
+        github_token: ${{ secrets.GITHUB_TOKEN }}
         labels: |
           ${{ steps.pr.outputs.totalLines <= 50 && 'small' }}
           ${{ steps.pr.outputs.totalLines > 50 && steps.pr.outputs.totalLines <= 200 && 'medium' }}

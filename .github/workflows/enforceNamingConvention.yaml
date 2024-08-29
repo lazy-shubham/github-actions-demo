@@ -15,7 +15,7 @@ jobs:
       with:
         script: |
           const title = context.payload.pull_request.title;
-          const validTitle = /^\[(?i:feature|bugfix|hotfix)\] .+$/.test(title);
+          const validTitle = /^\[(feature|bugfix|hotfix)\] .+$/i.test(title);
           if (!validTitle) {
             core.setFailed(`PR title "${title}" does not match the required format (e.g. [FEATURE] Description)`);
           }
